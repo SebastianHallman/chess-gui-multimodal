@@ -13,6 +13,7 @@ class ChessGUI(sg.Window):
         layout += self.board.get_layout()
         layout += [[sg.Button('New Game', size=(8, 1), key='-RESTART-')]]
         layout += [[sg.Input()]]
+        
         layout += [[sg.Button('Send move')]]
         return layout
 

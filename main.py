@@ -15,6 +15,8 @@ def main():
         event, values = window.read()
         if event in (sg.WIN_CLOSED, 'Exit'):
             break
+
+        print(values)
         # Move from input
         if event == "Send move":
             try: 
@@ -29,7 +31,7 @@ def main():
             
             except ValueError:
                 print("This is not a move")
-                
+
         window.update_board(event)
         window.update_status()
         window.refresh()
