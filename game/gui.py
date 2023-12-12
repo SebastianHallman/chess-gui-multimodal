@@ -15,7 +15,10 @@ class ChessGUI(sg.Window):
         layout += [[sg.Input()]]
         
         layout += [[sg.Button('Send move')]]
+        layout += [[sg.Button('Record Audio', size=(10, 1), key='-RECORD-' )]]  # Button for recording audio
+        layout += [[sg.Button('Perform move', size=(10, 1))]]  # Button for replaying audio
         return layout
+    
 
     def update_status(self):
         msg = f'{"WHITE" if self.board.turn else "BLACK"} to move..'
@@ -39,4 +42,13 @@ class ChessGUI(sg.Window):
             for tile in rank:
                 if tile.key == event:
                     self.board.handle_move(tile)
+
+        if event == '-RECORD-':
+            if self['-RECORD-'].get_text() == 'Record Audio':
+                self['-RECORD-'].update('Recording...')
+            # If the button text is 'Recording...', change it back to 'Record Audio'
+            else:
+                self['-RECORD-'].update('Record Audio') 
+                    
+
         self.board.update_display()

@@ -71,6 +71,8 @@ class ChessBoard(chess.Board):
         if len(self.pending_move) == 2:
             try:
                 move = self.parse_uci(''.join(self.pending_move))
+                print("Moging to: ")
+                print(move)
                 self.push(move)
             except ValueError:
                 try:

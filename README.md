@@ -69,3 +69,31 @@ Contributions are welcome! If you have any ideas for new features or improvement
 ## 📜 License
 
 This project is licensed under the [MIT](MIT.md) License.
+
+
+## Firt Run
+
+
+# install necessary packages
+bew install libav
+bew install ffmpeg
+
+# Install Pip
+python get-pip.py
+
+# Create Venv
+python3 -m venv venv
+
+# Install PortAudio
+brew install portaudio
+
+# Install Requirements
+pip install -r requirments.txt
+
+# Activate Venv
+source venv/bin/activate
+
+*Congrats you have your Venv*
+
+# Hot Reloading
+watchmedo auto-restart -R -d . -p '*.py' -- python main.py
