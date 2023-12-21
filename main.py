@@ -78,22 +78,24 @@ def main():
                 recording_in_progress = True
             else:
                 # Stop recording
-                print("stop recording")
+                
                 sd.stop()
                 np.save('myrecording.npy', myrecording)  # Save as a numpy array
+                
                 recording_in_progress = False
                 # Convert the numpy array to a WAV file
                 sf.write('myrecording.wav', myrecording, fs)
-
+                
                 # Load the WAV file with pydub
                 audio = AudioSegment.from_wav('myrecording.wav')
-
+                print("After from wav")
                 # Export the audio as an MP3 file
-                audio.export('myrecording.mp3', format='mp3')
+                #audio.export('myrecording.mp3', format='mp3')
+                
 
         if event == "Perform move":
             # Convert the audio data for Whisper
-            file = open('myrecording.mp3', 'rb')
+            file = open('myrecording.wav', 'rb')
 
 
             # Call the Whisper API
