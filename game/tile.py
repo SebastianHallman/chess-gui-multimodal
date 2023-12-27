@@ -4,8 +4,8 @@ import PySimpleGUI as sg
 ASSET_PATH = "./assets/"
 
 class Tile:
-    PRIMARY = 'light grey'
-    SECONDARY = 'skyblue'
+    PRIMARY = '#f5d8b5'
+    SECONDARY = '#be8461'
     EMPTY = "blank.png"
     def __init__(self, f, r):
         self.rank = 7 - r

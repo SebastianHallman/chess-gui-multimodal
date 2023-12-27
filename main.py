@@ -6,6 +6,7 @@ import PySimpleGUI as sg
 def main():
     sg.theme('Python')
     sg.set_options(font="Cambria 15")
+    # sg.theme_background_color('#262421')
 
     window = ChessGUI('Chess')
 
@@ -31,6 +32,35 @@ def main():
             
             except ValueError:
                 print("This is not a move")
+        if event == "-CENTER-":
+             window.update_board(window.board.head_pointer[0])
+    
+         
+        if event == "-LEFT-":
+            var = window.board.head_pointer[0]
+            if var[0] > 0:
+                new_var = (var[0]-1, var[1])
+                window.board.head_pointer[0] = new_var
+        
+            
+        if event == "-RIGHT-":
+            var = window.board.head_pointer[0]
+            if var[0] < 7:
+                new_var = (var[0]+1, var[1])
+                window.board.head_pointer[0] = new_var
+
+        if event == "-UP-":
+            var = window.board.head_pointer[0]
+            if var[1] < 7:
+                new_var = (var[0], var[1]+1)
+                window.board.head_pointer[0] = new_var
+            
+        if event == "-DOWN-":
+            var = window.board.head_pointer[0]
+            if var[1] > 0:
+                new_var = (var[0], var[1]-1)
+                window.board.head_pointer[0] = new_var
+
 
         window.update_board(event)
         window.update_status()
@@ -41,3 +71,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
