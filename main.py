@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import os
 from pydub import AudioSegment
 import io
-
+from utils import coords_to_tuples
 
 
 # Define these variables before they are used
@@ -35,14 +35,16 @@ def convert_audio_for_whisper(myrecording):
 
 
 def main():
-    global recording_in_progress, duration, fs, myrecording
+    global recording_in_progress, duration, fs, myrecording, move
 
     sg.theme('Python')
     sg.set_options(font="Cambria 15")
 
     window = ChessGUI('Chess')
 
-    print(window.board.legal_moves)
+    
+
+    
 
     while True:
         event, values = window.read()
@@ -58,6 +60,7 @@ def main():
                     print("Moving to: ")
                     print(move)
                     window.board.push(move)
+                    
                 else:
                     print("Hell nah stop trying to cheat dude")
 
@@ -78,6 +81,8 @@ def main():
                 recording_in_progress = True
             else:
                 # Stop recording
+
+                
                 
                 sd.stop()
                 np.save('myrecording.npy', myrecording)  # Save as a numpy array
@@ -86,51 +91,60 @@ def main():
                 # Convert the numpy array to a WAV file
                 sf.write('myrecording.wav', myrecording, fs)
                 
-                # Load the WAV file with pydub
-                audio = AudioSegment.from_wav('myrecording.wav')
-                print("After from wav")
-                # Export the audio as an MP3 file
-                #audio.export('myrecording.mp3', format='mp3')
+                window.board.squares_to_highlight = []
+                window.board.update_display()
+
+                # Convert the audio data for Whisper
+                file = open('myrecording.wav', 'rb')
+
+
+                # Call the Whisper API
+                response = client.audio.transcriptions.create(
+                    model="whisper-1", 
+                    file=file
+                )
+
+                # Extract the transcribed text from the response
+                # text = response['choices'][0]['text']
+                print("Transcribed text:",response.text)
+                chat_response = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": f"I have a chess move described in English: '{response.text}'. You are a machine that translate text to the standard chess notation for this move, in the format [Start: a1, End: a3]. You will always output the closest move that is described in the format specified. You can not create sentences or explainations, just provide an output"
+
+
+                        }
+                    ]
+                )
+
+                res = chat_response.choices[0].message.content
+                # Remove the prefix and the brackets
+                print("Chat response:", res)
+                res = res.replace("[", "").replace("]", "")
+
+                start, end = res.split(", ")
+                # Remove the prefixes
+                start = start.replace("Start: ", "")
+                end = end.replace("End: ", "")
+                print("Move:", start + end)
+
+                squares = coords_to_tuples(start+end)
                 
+                for square in squares:
+                    window.board.squares_to_highlight.append(square)
+                
+                window.board.update_display()
+
+                move = chess.Move.from_uci((start+end).lower())
+
+                    
 
         if event == "Perform move":
-            # Convert the audio data for Whisper
-            file = open('myrecording.wav', 'rb')
-
-
-            # Call the Whisper API
-            response = client.audio.transcriptions.create(
-                model="whisper-1", 
-                file=file
-            )
-
-            # Extract the transcribed text from the response
-            # text = response['choices'][0]['text']
-            print("Transcribed text:",response.text)
-            chat_response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {
-                        "role": "user",
-                        "content": f"I have a chess move described in English: '{response.text}'. Please respond only with the standard chess notation for this move, in the format [Start: a1, End: a3]."
-
-
-                    }
-                ]
-            )
-
-            res = chat_response.choices[0].message.content
-            # Remove the prefix and the brackets
-            print("Chat response:", res)
-            res = res.replace("[", "").replace("]", "")
-
-            start, end = res.split(", ")
-            # Remove the prefixes
-            start = start.replace("Start: ", "")
-            end = end.replace("End: ", "")
-            print("Move:", start + end)
-
-            move = chess.Move.from_uci((start+end).lower())
+            window.board.squares_to_highlight = []
+            window.board.update_display()
+            
             if move in window.board.legal_moves:
                 print("Moving to: ")
                 print(move)

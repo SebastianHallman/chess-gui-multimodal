@@ -13,6 +13,7 @@ class ChessBoard(chess.Board):
         self.pending_move = []
         self.available_squares = []
         self.squares_in_danger = []
+        self.squares_to_highlight = []
 
     def get_layout(self):
         board_layout = []
@@ -56,6 +57,10 @@ class ChessBoard(chess.Board):
             bg_color = tile.bgcolor
         if self.is_check() and tile.square == self.king(self.turn):
             bg_color = 'red'
+        if tile.key in self.squares_to_highlight:
+            bg_color = 'blue'
+        
+        
         tile.change_bg_color(bg_color)
 
     def get_available_squares(self, tile):
