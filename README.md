@@ -1,3 +1,8 @@
+# Multimodal chess game
+
+This is a chess game that is playable with voice commands and "eye-tracking" (using the head-pointer accessibility feature). This project is made for the course DT2140 Multimodal Interaction. The basic chess game is made by [@IndieCoderMM](https://github.com/indiecodermm/) and gave us consent to use his project as a starting point for us through email. Many thanks to him.
+
+
 [![CodeFactor](https://www.codefactor.io/repository/github/indiecodermm/chess-gui/badge)](https://www.codefactor.io/repository/github/indiecodermm/chess-gui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 

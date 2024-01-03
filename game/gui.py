@@ -11,9 +11,14 @@ class ChessGUI(sg.Window):
 
         left_column = [[sg.Text('Chess ', auto_size_text=True, key='-STATUS-', font='Default 20')]]
         left_column += self.board.get_layout()
-        left_column += [[sg.Button('New Game', size=(8, 1), key='-RESTART-')]]
-        left_column += [[sg.Input()]]
-        left_column += [[sg.Button('Send move')]]
+        button_row = [
+    sg.Button('New Game', size=(10, 1), key='-RESTART-'),
+    sg.Button('Record Audio', size=(12, 1), key='-RECORD-'),
+    sg.Button('Perform move', size=(12, 1))
+]
+        left_column += [button_row]
+        
+        
 
         right_column = [[sg.Push(), sg.Text('Press any button to navigate', auto_size_text=True, font='Default 20'), sg.Push()],[sg.Push(), sg.Button("up", size=(6, 2), key='-UP-'), sg.Push()], [sg.Button("left", size=(6, 2), key='-LEFT-'), sg.Button("enter" , size=(6, 2), key='-CENTER-'), sg.Button("right" , size=(6, 2), key='-RIGHT-')], [sg.Push(), sg.Button("down", size=(6, 2), key='-DOWN-'), sg.Push()] ]
 
@@ -22,8 +27,7 @@ class ChessGUI(sg.Window):
             sg.VSeperator(),
             sg.Column(right_column),]
         ]                                                                                                            
-        layout += [[sg.Button('Record Audio', size=(10, 1), key='-RECORD-' )]]  # Button for recording audio
-        layout += [[sg.Button('Perform move', size=(10, 1))]]  # Button for replaying audio
+        
         return layout
     
 

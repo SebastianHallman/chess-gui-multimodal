@@ -123,22 +123,24 @@ def main():
                 res = chat_response.choices[0].message.content
                 # Remove the prefix and the brackets
                 print("Chat response:", res)
-                res = res.replace("[", "").replace("]", "")
+                if len(res) < 25:
+                    
+                    res = res.replace("[", "").replace("]", "")
 
-                start, end = res.split(", ")
-                # Remove the prefixes
-                start = start.replace("Start: ", "")
-                end = end.replace("End: ", "")
-                print("Move:", start + end)
+                    start, end = res.split(", ")
+                    # Remove the prefixes
+                    start = start.replace("Start: ", "")
+                    end = end.replace("End: ", "")
+                    print("Move:", start + end)
 
-                squares = coords_to_tuples(start+end)
-                
-                for square in squares:
-                    window.board.squares_to_highlight.append(square)
-                
-                window.board.update_display()
+                    squares = coords_to_tuples(start+end)
+                    
+                    for square in squares:
+                        window.board.squares_to_highlight.append(square)
+                    
+                    window.board.update_display()
 
-                move = chess.Move.from_uci((start+end).lower())
+                    move = chess.Move.from_uci((start+end).lower())
 
                     
 
