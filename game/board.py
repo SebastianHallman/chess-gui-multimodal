@@ -62,7 +62,7 @@ class ChessBoard(chess.Board):
             bg_color = 'blue'
         
         if tile.key in self.head_pointer:
-            bg_color='#4d4dff'
+            bg_color='#FF7900'
         
         tile.change_bg_color(bg_color)
         
