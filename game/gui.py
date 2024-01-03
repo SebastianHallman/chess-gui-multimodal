@@ -8,15 +8,21 @@ class ChessGUI(sg.Window):
         super().__init__(title, self.get_layout())
 
     def get_layout(self):
-        layout = [[sg.Text('Chess ', auto_size_text=True,
-                           key='-STATUS-', font='Default 20')]]
-        layout += self.board.get_layout()
-        layout += [[sg.Button('New Game', size=(8, 1), key='-RESTART-')]]
-        layout += [[sg.Input()]]
-        
-        layout += [[sg.Button('Send move')]]
+        left_column = [[sg.Text('Chess ', auto_size_text=True, key='-STATUS-', font='Default 20')]]
+        left_column += self.board.get_layout()
+        left_column += [[sg.Button('New Game', size=(8, 1), key='-RESTART-')]]
+        left_column += [[sg.Input()]]
+        left_column += [[sg.Button('Send move')]]
         layout += [[sg.Button('Record Audio', size=(10, 1), key='-RECORD-' )]]  # Button for recording audio
         layout += [[sg.Button('Perform move', size=(10, 1))]]  # Button for replaying audio
+
+        right_column = [[sg.Push(), sg.Text('Press any button to navigate', auto_size_text=True, font='Default 20'), sg.Push()],[sg.Push(), sg.Button("up", size=(6, 2), key='-UP-'), sg.Push()], [sg.Button("left", size=(6, 2), key='-LEFT-'), sg.Button("enter" , size=(6, 2), key='-CENTER-'), sg.Button("right" , size=(6, 2), key='-RIGHT-')], [sg.Push(), sg.Button("down", size=(6, 2), key='-DOWN-'), sg.Push()] ]
+
+        layout = [
+            [sg.Column(left_column),
+            sg.VSeperator(),
+            sg.Column(right_column),]
+        ]                                                                                                            
         return layout
     
 

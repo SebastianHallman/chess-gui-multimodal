@@ -14,6 +14,7 @@ class ChessBoard(chess.Board):
         self.available_squares = []
         self.squares_in_danger = []
         self.squares_to_highlight = []
+        self.head_pointer=[(4,1)]
 
     def get_layout(self):
         board_layout = []
@@ -50,7 +51,7 @@ class ChessBoard(chess.Board):
             if self.piece_at(tile.square) and self.is_attacked_by(self.turn, tile.square):
                 bg_color = 'orange'
             else:
-                bg_color = 'lime'
+                bg_color = '#87986a'
         elif tile.name + 'q' in self.available_squares:
             bg_color = 'purple'
         else:
@@ -60,8 +61,11 @@ class ChessBoard(chess.Board):
         if tile.key in self.squares_to_highlight:
             bg_color = 'blue'
         
+        if tile.key in self.head_pointer:
+            bg_color='#4d4dff'
         
         tile.change_bg_color(bg_color)
+        
 
     def get_available_squares(self, tile):
         legal_moves = [str(move) for move in self.legal_moves]
@@ -79,6 +83,7 @@ class ChessBoard(chess.Board):
                 print("Moging to: ")
                 print(move)
                 self.push(move)
+                self.head_pointer[0] = (3,3)
             except ValueError:
                 try:
                     self.pending_move.append('q')
